@@ -12,7 +12,7 @@
             hint="At least 8 characters"
             counter
             @click:append="show1 = !show1"></v-text-field> 
-      <v-switch v-model="newUser.termsOfUseAccepted" label="Terms of Use"></v-switch>
+      <v-switch v-model="newUser.termsOfUseAccepted" label="Terms of Use" color="success"></v-switch>
 <div id="neuerUser">
   <v-btn color="info" prepend-icon="account_circle">
         Jetzt Registrieren.
