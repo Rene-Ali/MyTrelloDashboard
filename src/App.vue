@@ -1,23 +1,45 @@
-<script setup>
-import LoginView from './views/authentication/LoginView.vue'
-import RegistrationView from './views/authentication/RegistrationView.vue'
-import DashboardView from './views/user/DashboardView.vue';
-import UserAccount from './views/user/UserAccount.vue';
-
-</script>
-
-
 <template>
-  
-  <v-app>
-  <v-container>
-    <RouterView/>
-  </v-container>
-  </v-app>
+  <header>
 
+    <div class="wrapper">
+
+      <nav>
+        <RouterLink to="/">Home</RouterLink> |
+        <RouterLink to="/register">Register</RouterLink> |
+        <RouterLink to="/login">Login</RouterLink> |
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <RouterView />
+  </main>
 </template>
 
+<script setup>
+  import { onMounted } from 'vue';
+  import { RouterLink, RouterView } from 'vue-router';
+  import router from "@/router";
+  import { useAuthStore } from './stores/authenticationStore';
 
-<style>
+  const authStore = useAuthStore();
 
+  onMounted(async () => {
+    try {
+      await authStore.checkIfLoggedIn();
+    }
+    catch(error) {
+      router.push("/login");
+    }
+    
+  });
+
+
+</script> 
+
+<style scoped>
+  main, header {
+    max-width: 1200px;
+    margin: auto;
+  }
 </style>

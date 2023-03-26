@@ -7,11 +7,9 @@
         location="left"
       >
         <template v-slot:prepend>
-          <v-list-item
-            lines="one"
             prepend-icon="account_circle"
+            {{ user.Username }}
             subtitle="Logged in"
-          > </v-list-item>
         </template>
 
         <v-divider></v-divider>
@@ -27,12 +25,29 @@
   </v-card>
     </div>
     
-    <div class ="user" style="float: right; width: 75%">
-        <p>GeeksforGeeks</p>
-        <p>Geeks Portal</p>
-        <p>Writing Portal</p>
+    <div class ="user" style="float: right; width: 65%">
+        <v-card max-width=auto class="mx-auto" color="grey-lighten-3">
+            <v-layout>
+                <v-app-bar
+                color="teal-darken-4"
+                image="@/assets/UserDashboard.jpg">
+                </v-app-bar>
+            </v-layout>
+        </v-card>
+        <div>
+            >v-for="taskList in user.taskLists"> {{ taskList.label }}
+        </div>
     </div>
 </template>
+<script setup>
+import {computed} from 'vue';
+import {useuserStore} from '@/store/user';
+
+const userStore = useuserStore();
+
+const user = computed(()=> userStore.user);
+</script>
+
 <style>
 #user{
     padding-top: 15px;

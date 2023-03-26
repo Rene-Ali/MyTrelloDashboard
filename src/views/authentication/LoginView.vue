@@ -1,8 +1,8 @@
 <template>
   <h1> Bitte einloggen für ein effizienteres, gemeinsames Arbeiten. </h1>
   <br/>
- <v-form>
-  <v-text-field v-model="username" label="Username" prepend-icon="account_circle"></v-text-field>
+ <v-form @submit.prevent="loginUser">
+  <v-text-field v-model="userToLogin.Username" label="Username" prepend-icon="account_circle"></v-text-field>
   <br>
   <v-text-field v-model="userToLogin.email" label="E-Mail" prepend-icon="mail_outline"></v-text-field>
   <br>
@@ -36,6 +36,7 @@
         await authStore.loginUser(userToLogin.value);
     }
 </script>
+
 <style scoped>
 
 h1{
