@@ -14,7 +14,7 @@
             @click:append="show1 = !show1"></v-text-field>
   <br>
   <div class="button">
-    <v-btn id="login" color="info"> Login </v-btn>
+    <v-btn type="submit" id="login" color="info"> Login </v-btn>
     <v-btn id="registration" variant="outlined" color="normal"> Registrieren </v-btn>
   </div>
  </v-form>
@@ -24,6 +24,7 @@
 <script setup>
   import {ref} from 'vue'
   import { useAuthStore } from '@/stores/authenticationStore';
+  import {router} from "@/router";
 
   const authStore = useAuthStore();
 
@@ -33,8 +34,16 @@
   });
 
   async function loginUser() {
-        await authStore.loginUser(userToLogin.value);
+    try{
+      await authStore.loginUser(userToLogin.value);
+      router.push("/dashboard");
     }
+    catch(error){
+      alert("Sie sind noch kein User. Bitte registrieren Sie sich jetzt");
+      router.push("/register");
+    }
+  };
+
 </script>
 
 <style scoped>

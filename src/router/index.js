@@ -6,6 +6,7 @@ import AuthenticationLayout from '../views/layout/AuthenticationLayout.vue'
 import UserLayout from '../views/layout/UserLayout.vue'
 import UserAccount from '../views/user/UserAccount.vue'
 import DashboardView from '../views/user/DashboardView.vue'
+import KanbanComponent from '../views/user/KanbanComponent.vue'
 
 const routes =[
     {
@@ -24,7 +25,7 @@ const routes =[
         ],
     },
     {
-    path: '/user',
+        path: '/user',
         component: UserLayout,
         children: [
             {
@@ -34,6 +35,10 @@ const routes =[
             {
                 path: '/dashboard',
                 component: DashboardView
+            },
+            {
+                path: "/:taskListId",
+                component: KanbanComponent
             }
         ],
     },

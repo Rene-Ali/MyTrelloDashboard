@@ -14,9 +14,9 @@
             @click:append="show1 = !show1"></v-text-field> 
       <v-switch v-model="newUser.termsOfUseAccepted" label="Terms of Use" color="success"></v-switch>
     <div id="neuerUser">
-      <button type="submit" color="info" prepend-icon="account_circle">
+      <v-btn type="submit" color="info" prepend-icon="account_circle">
         Jetzt Registrieren.
-      </button>
+      </v-btn>
     </div>
     
     </v-form>
@@ -25,6 +25,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useAuthStore } from "@/stores/authenticationStore";
+import { router } from '../../router';
 
     const authStore = useAuthStore();
 
@@ -40,8 +41,10 @@ import { useAuthStore } from "@/stores/authenticationStore";
     const fullName = computed(() => newUser.value.firstName + " " + newUser.value.lastName);
 
     async function createNewUser() {
+      console.log("user")
         await authStore.registerUser(newUser.value);
-    }
+        router.push("/dashboard");
+    };
 
 
 

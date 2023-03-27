@@ -7,9 +7,12 @@
         location="left"
       >
         <template v-slot:prepend>
+          <v-list-item
+            lines="two" 
             prepend-icon="account_circle"
-            {{ user.Username }}
-            subtitle="Logged in"
+            :title = "user.Username"
+            subtitle="Logged in">
+          </v-list-item>
         </template>
 
         <v-divider></v-divider>
@@ -34,16 +37,17 @@
                 </v-app-bar>
             </v-layout>
         </v-card>
-        <div>
-            >v-for="taskList in user.taskLists"> {{ taskList.label }}
+        <div 
+        v-for="taskList in user.taskLists"> {{ taskList.label }}
         </div>
     </div>
 </template>
 <script setup>
 import {computed} from 'vue';
-import {useuserStore} from '@/store/user';
+//import {useUserStore} from '@/store/userStore.js';
+import { useUserStore } from '../../stores/userStore';
 
-const userStore = useuserStore();
+const userStore = useUserStore();
 
 const user = computed(()=> userStore.user);
 </script>
