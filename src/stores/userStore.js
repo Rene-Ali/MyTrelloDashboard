@@ -28,5 +28,17 @@ export const useUserStore = defineStore("userStore", () => {
         user.value.taskLists.push(response.data);
     }
 
-    return { user, tasks, saveUser, showTasks, createNewTaskList }
-});
+    async function removeTask(taskListId){
+        let response = await axios.delete ("https://codersbay.a-scho-wurscht.at/api/tasklist/" + taskListId, axiosHeader);
+        console.log("response.data", response.data);
+        let indexToDelete = user.value.taskLists.findIndex(taskList => {
+            return taskList.id === taskListId
+        })
+        user.value.taskLists.splice(indexToDelete, 1);
+    }
+        /*let response = await axios.delete("https://codersbay.a-scho-wurscht.at/api/tasklist", removeTask, axiosHeader);
+        console.log("response.data", response.data);
+        user.value.taskLists.delete(delete.data);*/
+    
+
+    return { user, tasks, saveUser, removeTask, showTasks, createNewTaskList };});

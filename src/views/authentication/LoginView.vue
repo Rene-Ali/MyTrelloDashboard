@@ -1,23 +1,29 @@
 <template>
-  <h1> Bitte einloggen für ein effizienteres, gemeinsames Arbeiten. </h1>
+  <h1 id="loginHeader"> Bitte einloggen für ein effizienteres, gemeinsames Arbeiten </h1>
   <br/>
- <v-form @submit.prevent="loginUser">
-  <v-text-field v-model="userToLogin.Username" label="Username" prepend-icon="account_circle"></v-text-field>
-  <br>
-  <v-text-field v-model="userToLogin.email" label="E-Mail" prepend-icon="mail_outline"></v-text-field>
-  <br>
-  <v-text-field v-model="userToLogin.password" label="Passwort" prepend-icon="lock_open" 
+  <v-container class="mx">
+    <v-form @submit.prevent="loginUser">
+      <v-text-field v-model="userToLogin.Username" label="Username" prepend-icon="account_circle"></v-text-field>
+      <br>
+      <v-text-field v-model="userToLogin.email" label="E-Mail" prepend-icon="mail_outline"></v-text-field>
+      <br>
+      <v-text-field v-model="userToLogin.password" label="Passwort" prepend-icon="lock_open" 
             :type="show1 ? 'text' : 'password'"
             name="input-10-1"
             hint="At least 8 characters"
             counter
             @click:append="show1 = !show1"></v-text-field>
-  <br>
-  <div class="button">
-    <v-btn type="submit" id="login" color="info"> Login </v-btn>
-    <v-btn id="registration" variant="outlined" color="normal"> Registrieren </v-btn>
-  </div>
- </v-form>
+      <br>
+      <div class="button">
+        <v-btn type="submit" id="login" color="info"> Login </v-btn>
+        <v-btn id="registration" variant="outlined" color="normal"> Registrieren </v-btn>
+      </div>
+  </v-form>
+</v-container>
+ <footer><i class="icon-social-twitter icons"></i>
+          <i class="icon-social-github icons"></i>
+          <i class="icon-social-dribbble icons"></i>
+  </footer>
 
 </template>
 
@@ -48,8 +54,11 @@
 
 <style scoped>
 
-h1{
+#loginHeader{
   text-align: center;
+  font: 600 50px Montserrat;
+  text-shadow: 0 10px 25px rgba(247, 246, 246, 0.3);
+  color: black;
 }
 
 .button{

@@ -1,5 +1,5 @@
 <template>
-   <h1> Jetzt REGISTRIEREN & Teil der Trello-Family werden. </h1>
+   <h1 id="registrieren"> Jetzt REGISTRIEREN & Teil der Trello-Family werden. </h1>
    <br>
    <v-form @submit.prevent="createNewUser">
     <v-text-field v-model="newUser.email" label="E-Mail" prepend-icon="mail_outline"></v-text-field>
@@ -55,8 +55,11 @@ import { router } from '../../router';
         display: block;
     }
 
-    h1{
+    #registrieren{
       text-align: center;
+      color: black;
+      font: 600 50px Montserrat;
+      text-shadow: 0 10px 25px rgba(247, 246, 246, 0.3);
     }
 
     #neuerUser{
