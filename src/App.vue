@@ -1,7 +1,7 @@
 <template>
   <V-App>
     <RouterView/>
-</V-App>
+  </V-App>
 </template>
 
 <script setup>

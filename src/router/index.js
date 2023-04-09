@@ -7,6 +7,7 @@ import UserLayout from '../views/layout/UserLayout.vue'
 import UserAccount from '../views/user/UserAccount.vue'
 import DashboardView from '../views/user/DashboardView.vue'
 import KanbanComponent from '../views/user/KanbanComponent.vue'
+import NotesView from '../views/user/NotesView.vue'
 
 const routes =[
     {
@@ -36,10 +37,15 @@ const routes =[
                 path: '/dashboard',
                 component: DashboardView
             },
+            {   
+                path: '/notes',
+                component: NotesView
+            },
             {
                 path: "/:taskListId",
                 component: KanbanComponent
             }
+        
         ],
     },
 ]

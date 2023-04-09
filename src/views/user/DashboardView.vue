@@ -11,9 +11,9 @@
         <div class="hover hover-7"></div>
         <div class="hover hover-8"></div>
         <div class="hover hover-9"></div>
-    <h1>Willkommen zu Ihrem persönlichen Dashboard</h1>
+        <h1>Willkommen zu Ihrem persönlichen Dashboard</h1>
+      </div>
     </div>
-  </div>
   </header>
   <br>
   <v-container class="mx auto" max-width="500">
@@ -36,6 +36,7 @@
       <v-row>
         <v-col>
           <v-btn type="submit">Neue Taskliste erstellen</v-btn>
+          <v-btn @click="zuNotizen">Zu meinen persönlichen Notizen</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -48,114 +49,22 @@
               <v-card-title class="text-white">{{ taskList.label }}</v-card-title>
             </v-img>
           </router-link>
-             <v-card-actions>
-              <v-spacer></v-spacer>
+          <v-card-actions>
+            <v-spacer></v-spacer>
 
-              <v-btn size="small" color="surface-variant" variant="text" icon="thumb_up"></v-btn>
+            <v-btn size="small" color="surface-variant" variant="text" icon="thumb_up"></v-btn>
 
-              <v-btn size="small" color="surface-variant" variant="text" icon="bookmark"></v-btn>
+            <v-btn size="small" color="surface-variant" variant="text" icon="bookmark"></v-btn>
 
-              <v-btn size="small" color="surface-variant" variant="text" icon="share"></v-btn>
+            <v-btn size="small" color="surface-variant" variant="text" icon="share"></v-btn>
 
-              <v-btn type="button" @click.prevent="removeTaskList(taskList.taskListId)" size="small" color="surface-variant" variant="text" icon="delete"></v-btn>
-            </v-card-actions>
-          </v-card>
-       </v-col>
+            <v-btn type="button" @click.prevent="removeTaskList(taskList.taskListId)" size="small" color="surface-variant"
+              variant="text" icon="delete"></v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
-  <!--v-card
-    class="mx-auto"
-    max-width="500"
-  >
-    <v-container fluid>
-      <v-row dense>
-        <v-col>
-          <v-card>
-            <v-img
-              class="align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
-              cover
-            >
-              <v-card-title class="text-white">Urlaub 2023</v-card-title>
-            </v-img>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="thumb_up"></v-btn>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="bookmark"></v-btn>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="share_variant"></v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-card>
-  <v-card
-    class="mx-auto"
-    max-width="500"
-  >
-    <v-container fluid>
-      <v-row dense>
-        <v-col>
-          <v-card>
-            <v-img
-              class="align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
-              cover
-            >
-              <v-card-title class="text-white">Unternehmensorganigramm</v-card-title>
-            </v-img>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="thumb_up"></v-btn>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="bookmark"></v-btn>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="share_variant"></v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-card>
-  <v-card
-    class="mx-auto"
-    max-width="500"
-  >
-    <v-container fluid>
-      <v-row dense>
-        <v-col>
-          <v-card>
-            <v-img
-              class="align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
-              cover
-            >
-              <v-card-title class="text-white"></v-card-title>
-            </v-img>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="thumb_up"></v-btn>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="bookmark"></v-btn>
-
-              <v-btn size="small" color="surface-variant" variant="text" icon="share_variant"></v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-card-->
 </template>
 
 <script setup>
@@ -176,24 +85,27 @@ async function createNewTaskList() {
   await userStore.createNewTaskList(newTask.value);
 }
 
-async function removeTaskList(taskListId){
+async function removeTaskList(taskListId) {
   console.log(taskListId);
   await userStore.removeTask(taskListId);
 }
 
+async function zuNotizen() {
+  router.push("/notes");
+};
+
 </script>
 
 <style>
-.align-end{
+.align-end {
   background-image: url("@/assets/Dashboard.jpg");
-  background-size: cover ;
+  background-size: cover;
   width: 100%;
   height: 40vh;
   opacity: 80%;
 }
 
-.Task{
+.Task {
   align-items: center;
 }
-
 </style>
