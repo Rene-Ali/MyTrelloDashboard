@@ -35,7 +35,7 @@ const userToLogin = ref({
 async function loginUser() {
   try {
     await authStore.loginUser(userToLogin.value);
-    router.push("/dashboard");
+    router.push("/user");
   }
   catch (error) {
     alert("Sie sind noch kein User. Bitte registrieren Sie sich jetzt");
@@ -50,6 +50,10 @@ async function registrationPage() {
 </script>
 
 <style scoped>
+.mx{
+  width: 500px;
+}
+
 #loginHeader {
   text-align: center;
   font: 600 50px Montserrat;

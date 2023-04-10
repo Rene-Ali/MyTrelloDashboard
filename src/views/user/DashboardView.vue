@@ -16,29 +16,33 @@
     </div>
   </header>
   <br>
-  <v-container class="mx auto" max-width="500">
+  <div class="avatar">
+    <AvatarComponent size="75"/>
+    Username: {{ user.username }}
+  </div>
+  <v-container class="mi">
     <v-form @submit.prevent="createNewTaskList">
       <v-row>
         <v-col>
-          <v-text-field label="label" v-model="newTask.label"></v-text-field>
+          <v-text-field label="label" v-model="newTaskList.label"></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field label="slug" v-model="newTask.slug"></v-text-field>
+          <v-text-field label="slug" v-model="newTaskList.slug"></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field label="description" v-model="newTask.description"></v-text-field>
+          <v-text-field label="description" v-model="newTaskList.description"></v-text-field>
         </v-col>
       </v-row>
-      <v-row>
+      <div class="dashboardBtn">
         <v-col>
           <v-btn type="submit">Neue Taskliste erstellen</v-btn>
           <v-btn @click="zuNotizen">Zu meinen persönlichen Notizen</v-btn>
         </v-col>
-      </v-row>
+      </div>
     </v-form>
     <br>
     <v-row dense>
@@ -69,11 +73,17 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { useUserStore } from '../../stores/userStore';
+import { useUserStore } from '../../stores/userStore.js';
+import { router } from "@/router";
+import AvatarComponent from "../layout/AvatarComponent.vue";
+
+//const router = useRouter();
 
 const userStore = useUserStore();
 
-const newTask = ref({
+const user = computed(() => userStore.user);
+
+const newTaskList = ref({
   label: "",
   slug: "",
   description: ""
@@ -82,18 +92,49 @@ const newTask = ref({
 const taskLists = computed(() => userStore.user.taskLists);
 
 async function createNewTaskList() {
-  await userStore.createNewTaskList(newTask.value);
+  await userStore.createNewTaskList(newTaskList.value);
 }
 
 async function removeTaskList(taskListId) {
   console.log(taskListId);
-  await userStore.removeTask(taskListId);
+  await userStore.removeTaskList(taskListId);
 }
 
 async function zuNotizen() {
-  router.push("/notes");
-};
+  await router.push("/notes");
+}
 
+const image = ref(null);
+const imageSrc = ref(null);
+const isUpdateable = ref(true);
+
+
+async function changeAvatar() {
+    // Revoke URL to make sure that there are no memory leaks
+    if (imageSrc.value != null) {
+        URL.revokeObjectURL(imageSrc.value);
+    }
+    // Make a form data so the binary data can be submitted
+    const formData = new FormData();
+    formData.append("image", image.value[0]);
+    try {
+        imageSrc.value = URL.createObjectURL(image.value[0]); // make an URL so it cant be used as the source for the avatar
+        userStore.userImage = imageSrc.value;
+        await axios.post("https://codersbay.a-scho-wurscht.at/api/user/image", formData, userStore.getAxiosConfig()); // send the form data with the binary image file to the server
+        isUpdateable.value = !isUpdateable.value; // Change the button function
+    } catch (err) {
+        console.log(err)
+    }
+}
+async function deleteAvatar() {
+    try {
+        userStore.userImage = null; // Delete from store
+        await axios.delete("https://codersbay.a-scho-wurscht.at/api/user/image", userStore.getAxiosConfig());
+        isUpdateable.value = !isUpdateable.value; // Change button functionality 
+    } catch (err) {
+        console.log("no picture available to delete")
+    }
+}
 </script>
 
 <style>
@@ -108,4 +149,20 @@ async function zuNotizen() {
 .Task {
   align-items: center;
 }
+
+.mi{
+  width: 500px;
+  padding-top: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboardBtn{
+  width: 500px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  text-align: center;
+}
+
 </style>

@@ -12,6 +12,7 @@
                 <h1>Meine persönlichen Notizen</h1>
                 <button @click="showModal = true">+</button>
             </header>
+            <v-btn class="exit" @click="zumDashboard"> Zurück </v-btn>
             <div class="cards-container">
                 <div v-for = "note in notes" :key="note.id" class="card" :style="{backgroundColor: note.backgroundColor}" >
                     <p class="main-text"> {{ note.text }}</p>
@@ -24,9 +25,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
-
-const router = useRoute();
+import { router } from "@/router";
 
 const showModal = ref(false);
 const newNote = ref("");
@@ -50,6 +49,10 @@ const addNote = () => {
     });
     showModal.value = false;
     newNote.value = ""
+}
+
+async function zumDashboard() {
+  await router.push("/dashboard");
 }
 
 
@@ -152,4 +155,16 @@ header button {
     background-color: rgb(193, 15, 15);
     margin-top: 7px;
 }
+
+.exit{
+    position: absolute;
+    top: 35px;
+    right: 15px;
+    font-size: 5px;
+    width: auto;
+    background-color: rgb(89, 88, 89);
+    color: white;
+    cursor: pointer;
+}
+
 </style>

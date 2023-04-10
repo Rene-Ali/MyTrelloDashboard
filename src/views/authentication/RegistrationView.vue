@@ -1,6 +1,7 @@
 <template>
   <h1 id="registrieren"> Jetzt REGISTRIEREN & Teil der Trello-Family werden. </h1>
   <br>
+  <v-container class="md">
   <v-form @submit.prevent="createNewUser">
     <v-text-field v-model="newUser.email" label="E-Mail" prepend-icon="mail_outline"></v-text-field>
     <v-text-field v-model="newUser.firstName" label="Vorname" prepend-icon="account_circle"></v-text-field>
@@ -15,6 +16,7 @@
       </v-btn>
     </div>
   </v-form>
+</v-container>
 </template>
 
 <script setup>
@@ -50,7 +52,7 @@ const errorMessage = ref("");
 async function createNewUser() {
   try {
     await authStore.registerUser(newUser.value);
-    router.push("/dashboard");
+    router.push("/user");
   }
   catch (error) {
     alert("Bitte befüllen Sie alle Felder korrekt, um sich zu registrieren");
@@ -63,6 +65,11 @@ async function createNewUser() {
 </script>
 
 <style scoped>
+
+.md{
+  width: 500px;
+}
+
 input {
   display: block;
 }
