@@ -152,7 +152,7 @@ async function deleteAvatar() {
 
 .mi{
   width: 500px;
-  padding-top: 10px;
+  padding-top: 30px;
   align-items: center;
   justify-content: center;
 }
@@ -165,4 +165,10 @@ async function deleteAvatar() {
   text-align: center;
 }
 
+.avatar{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
 </style>

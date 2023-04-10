@@ -23,7 +23,7 @@
                 </v-row>
             </v-form>
         </div>
-        <v-container grid-list-md text-center>
+        <v-container class="kanban-board" grid-list-md text-center>
             <v-layout justify-center row fill-height>
             <v-flex v-for="i in 4" :key="`3${i}`">
                 <v-card dark color="secondary">
@@ -148,5 +148,20 @@ async function createNewTask() {
     align-items: center;
     display: flex;
 
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
 }
 </style>
