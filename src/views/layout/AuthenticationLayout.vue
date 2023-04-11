@@ -1,11 +1,15 @@
+
+import SitebarLayout from './SitebarLayout.vue';
+
 <template>
     <div class ="background-image">
-      
     </div>
     <VMain>
+
         <RouterView/>
     </VMain>
 </template>
+
 
 <style scoped>
 .background-image {
@@ -15,5 +19,6 @@
   height: 40vh;
   opacity: 80%;
 }
+
 
 </style>

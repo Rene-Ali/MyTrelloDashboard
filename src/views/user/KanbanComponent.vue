@@ -13,85 +13,71 @@
                 <v-row>
                     <v-col>
                         <div v-for="taskList in user.tasksLists">
-                            {{ user.taskList.label }}
+                            {{ taskList.label }}
                         </div>
                         <v-text-field label="title" v-model="newTask.title" placeholder="Titel"></v-text-field>
                         <v-text-field label="description" v-model="newTask.description" placeholder="Beschreibung">
                         </v-text-field>
-                        <v-btn type="submit" class="ml-2" variant="primary"> Hinzufügen </v-btn>
+                        <v-btn type="submit" @click="add" class="ml-2" variant="elevated"> Hinzufügen </v-btn>
                     </v-col>
                 </v-row>
             </v-form>
         </div>
-        <v-container class="kanban-board" grid-list-md text-center>
-            <v-layout justify-center row fill-height>
-            <v-flex v-for="i in 4" :key="`3${i}`">
-                <v-card dark color="secondary">
-                    <v-card-text class="px-0">3</v-card-text>
-                </v-card>
-            </v-flex>
-            </v-layout>
-            <v-row no-gutters>
-            <v-col cols="12" sm="4">
-                <v-sheet class="ma-2 pa-2" alert alert-secondary>
-                    <h3>Backlog</h3>
-                    <draggable class="list-group kanban-column" :list="arrBacklog" group="tasks">
-                        <div class="list-group-item" v-for="task in tasks">
-                            {{ task.title }}
-                        </div>
-                    </draggable>
-                </v-sheet>
-                <v-sheet class="ma-2 pa-2" alert alert-secondary>
-                    <h3>InProgress</h3>
-                    <draggable class="list-group kanban-column" :list="arrBacklog" group="tasks">
-                        <div class="list-group-item" v-for="task in tasks">
-                            {{ task.title }}
-                        </div>
-                    </draggable>
-                </v-sheet>
-            </v-col>
-            </v-row>
-            <!-- <v-col>
-                <v-sheet class="col-md-3">
-                    <div class="p-2 alert alert-primary">
-                        <h3>In Progress</h3>
-                        <draggable class="list-group kanban-column" :list="arrInProgress" group="tasks">
+    
+            <v-img class="logo" src="2023.png"></v-img>
+      
+        <br>
+        <!-- <div class="backlog">
+
+            <v-card dark color="secondary" v-for="task in tasks" display: block>
+                <v-card-title class="text-black">{{ task.title }}</v-card-title>
+            </v-card>
+        </div> -->
+        <v-container class="grid-container ">
+                <div class="col-3">
+                    <div class="p-2 alert alert-secondary">
+                        <h3>Backlog</h3>
+                        <VueDraggableNext class="drag Area list-group kanban-column" v-model="tasks.value"
+                            :list="arrBacklog" group="tasks" @end="onDragEnd">
                             <div class="list-group-item" v-for="task in arrBacklog" :key="task.id">
                                 {{ task.title }}
                             </div>
-                        </draggable>
+                        </VueDraggableNext>
                     </div>
-                </v-sheet>
-            </v-col>
-            <div class="col-md-3">
-                <div class="p-2 alert alert-warning">
-                    <h3>Tested</h3>
-                    <draggable class="list-group kanban-column" :list="arrTested" group="tasks">
-                        <div class="list-group-item" v-for="task in arrTested" :key="task.id">
+            </div>
+            <div class="col-3">
+                <div class="p-2 alert alert-primary">
+                    <h3>In Progress</h3>
+                    <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrInProgress"
+                        group="tasks" @end="onDragEnd">
+                        <div class="list-group-item" v-for="task in arrInProgress" :key="task.id">
                             {{ task.title }}
                         </div>
-                    </draggable>
+                    </VueDraggableNext>
                 </div>
             </div>
-
-            <div class="col-md-3">
-                <div class="p-2 alert alert-success">
+            <div class="col-3">
+                <div class="p-2 alert alert-primary">
                     <h3>Done</h3>
-                    <draggable class="list-group kanban-column" :list="arrDone" group="tasks">
+                    <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrDone" group="tasks"
+                        @end="onDragEnd">
                         <div class="list-group-item" v-for="task in arrDone" :key="task.id">
                             {{ task.title }}
                         </div>
-                    </draggable>
+                    </VueDraggableNext>
                 </div>
-            </div> -->
+            </div>
         </v-container>
+
     </main>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useUserStore } from '../../stores/userStore';
-import { router } from "@/router";
+import { useRoute } from "vue-router"
+import { VueDraggableNext } from "vue-draggable-next";
+import axios from 'axios';
 
 
 const userStore = useUserStore();
@@ -100,23 +86,24 @@ const user = computed(() => userStore.user);
 
 const tasksLists = computed(() => userStore.tasksLists);
 
-//const taskListId = computed(() => router.params.taskListId);
-const tasks = computed(() => userStore.user.tasks);
+const route = useRoute();
+const taskListId = computed(() => route.params.taskListId);
+const tasks = computed(() => userStore.tasks);
 
 onMounted(async () => {
-    await userStore.showTasksLists(taskListId.value);
+    console.log("onmounted", taskListId.value);
+    await userStore.showTaskLists(taskListId.value);
 });
 
-const arrBacklog = ([]);
-const arrInProgress = ([]);
-const arrTested = ([]);
-const arrDone = ([]);
-const date = new Date();
+const arrBacklog = ref([]);
+const arrInProgress = ref([]);
+const arrDone = ref([]);
+
 
 const newTask = ref({
     assignedUserId: userStore.user.userId,
     description: "",
-    taskListId: userStore.user.taskListId,
+    taskListId: parseInt(taskListId.value),
     status: "TODO",
     points: 0,
     estimation: 0,
@@ -124,17 +111,29 @@ const newTask = ref({
 });
 
 async function createNewTask() {
+    console.log("newTask.value", newTask.value);
     await userStore.createNewTask(newTask.value);
 }
 
-// const add = () => {
-//     if (newTask.value) {
-//         arrBacklog.value.push({
-//             title: newTask.title,
-//         });
-//         newTask.value = "";
-//     }
-// }
+const add = () => {
+    if (newTask.value) {
+        arrBacklog.value.push({
+            title: newTask.value.title,
+        });
+        // newTask.value = "";
+    }
+}
+
+const onDragEnd = async () => {
+    for (let i = 0; i < tasks.length; i++) {
+        try {
+            const res = await axios.put("https://codersbay.a-scho-wurscht.at/api/task/" + taskId, { status: task.status, });
+            console.log(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};
 
 </script>
 <style>
@@ -143,25 +142,35 @@ async function createNewTask() {
 }
 
 .taskForm {
-    margin-left: 80px;
-    width: 500px;
+    width: 100vw;
     align-items: center;
+    padding-left: 40px;
     display: flex;
 
 }
 
 .grid-container {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  gap: 10px;
-  background-color: #2196F3;
-  padding: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+    padding-top: 10px;
 }
 
-.grid-container > div {
-  background-color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  padding: 20px 0;
-  font-size: 30px;
+.grid-container>div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
 }
+
+.logo{
+    display: flex;
+    float: right;
+
+
+}
+
+
 </style>

@@ -7,7 +7,7 @@ export const useUserStore = defineStore("userStore", () => {
     const user = ref({}); //userinformationen sind hier gespeichert
     //const userImage = ref(null); //Image Url wird hier gespeichert
     const userImage=ref(null);
-    const tasks = ref({});
+    const tasks = ref([]);
     const tasklists = ref({});
 
 
@@ -24,9 +24,11 @@ export const useUserStore = defineStore("userStore", () => {
     }
 
     //behandelt die Tasklisten und zeigt sie, kreiert sie und entfernt sie (Dashboard)
-    async function showTasks(taskListId) {
+    async function showTaskLists(taskListId) {
+        console.log("showTaskLists");
         let response = await axios.get("https://codersbay.a-scho-wurscht.at/api/tasklist/" + taskListId);
-        tasks.value = response.data;
+        tasks.value.push(response.data.tasks);
+        console.log("tasks.value", tasks.value);
     }
 
     async function createNewTaskList(newTaskList) {
@@ -55,9 +57,11 @@ export const useUserStore = defineStore("userStore", () => {
     }
 
     async function createNewTask(newTask) {
+        console.log("newTask", newTask);
         let response = await axios.post("https://codersbay.a-scho-wurscht.at/api/task", newTask, axiosHeader);
         console.log("response.data", response.data);
-        user.value.tasks.push(response.data);
+        console.log("tasks.value", tasks.value);
+        tasks.value.push(response.data);
     }
 
     async function showTask(taskId) {
@@ -99,4 +103,4 @@ export const useUserStore = defineStore("userStore", () => {
         }
     }
 
-return { user, tasklists, tasks, saveUser, removeTask, removeTaskList, createNewTask, showTasks, showTask, createNewTaskList, getUserInformation, userImage}})
+return { user, tasklists, tasks, saveUser, removeTask, removeTaskList, createNewTask, showTaskLists, showTask, createNewTaskList, getUserInformation, userImage}})

@@ -1,4 +1,7 @@
 <template>
+  <div class="logo">
+    <v-img src="../../assets/2023.png"></v-img>
+  </div>
   <h1 id="loginHeader"> Bitte einloggen für ein effizienteres, gemeinsames Arbeiten </h1>
   <br />
   <v-container class="mx">
@@ -25,6 +28,7 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/authenticationStore';
 import { router } from "@/router";
 
+
 const authStore = useAuthStore();
 
 const userToLogin = ref({
@@ -50,7 +54,7 @@ async function registrationPage() {
 </script>
 
 <style scoped>
-.mx{
+.mx {
   width: 500px;
 }
 
@@ -77,4 +81,11 @@ async function registrationPage() {
   text-align: center;
   margin-left: 10px;
 }
+
+ .logo {
+  display: flex;
+  position: relative; 
+  height: 40px;
+  width: 40px; 
+} 
 </style>
