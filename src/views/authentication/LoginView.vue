@@ -1,25 +1,27 @@
 <template>
-  <div class="logo">
-    <v-img src="../../assets/2023.png"></v-img>
-  </div>
   <h1 id="loginHeader"> Bitte einloggen für ein effizienteres, gemeinsames Arbeiten </h1>
   <br />
-  <v-container class="mx">
-    <v-form @submit.prevent="loginUser">
-      <v-text-field v-model="userToLogin.Username" label="Username" prepend-icon="account_circle"></v-text-field>
-      <br>
-      <v-text-field v-model="userToLogin.email" label="E-Mail" prepend-icon="mail_outline"></v-text-field>
-      <br>
-      <v-text-field v-model="userToLogin.password" label="Passwort" prepend-icon="lock_open"
-        :type="show1 ? 'text' : 'password'" name="input-10-1" hint="At least 8 characters" counter
-        @click:append="show1 = !show1"></v-text-field>
-      <br>
-      <div class="button">
-        <v-btn type="submit" id="login" color="info"> Login </v-btn>
-        <v-btn @click.prevent="registrationPage" id="registration" variant="outlined" color="normal"> Registrieren
-        </v-btn>
-      </div>
-    </v-form>
+  <v-container class="grid-container-2">
+    <div class="col-3">
+      <img class="logo" src="../../assets/2023.png">
+    </div>
+    <div class="col-3">
+      <v-form @submit.prevent="loginUser">
+        <v-text-field v-model="userToLogin.Username" label="Username" prepend-icon="account_circle"></v-text-field>
+        <br>
+        <v-text-field v-model="userToLogin.email" label="E-Mail" prepend-icon="mail_outline"></v-text-field>
+        <br>
+        <v-text-field v-model="userToLogin.password" label="Passwort" prepend-icon="lock_open"
+          :type="show1 ? 'text' : 'password'" name="input-10-1" hint="At least 8 characters" counter
+          @click:append="show1 = !show1"></v-text-field>
+        <br>
+        <div class="button">
+          <v-btn type="submit" id="login" color="info" v-bind="props"> Login </v-btn>
+          <v-btn @click.prevent="registrationPage" id="registration" variant="outlined" color="normal"> Registrieren
+          </v-btn>
+        </div>
+      </v-form>
+    </div>
   </v-container>
 </template>
 
@@ -35,6 +37,7 @@ const userToLogin = ref({
   email: "",
   password: ""
 });
+
 
 async function loginUser() {
   try {
@@ -82,10 +85,29 @@ async function registrationPage() {
   margin-left: 10px;
 }
 
- .logo {
-  display: flex;
-  position: relative; 
-  height: 40px;
-  width: 40px; 
-} 
+.grid-container-2 {
+    grid-template-columns: auto auto;
+    gap: 10px;
+    padding: 10px;
+    padding-top: 10px;
+    padding-left: 100px;
+}
+
+.grid-container-2>div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+}
+
+
+.logo{  
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 400px;
+  margin: auto;
+
+}
+
 </style>

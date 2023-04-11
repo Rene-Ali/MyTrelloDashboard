@@ -8,62 +8,60 @@
     </header>
     <br>
     <main>
-        <div class="taskForm">
-            <v-form @submit.prevent="createNewTask">
-                <v-row>
-                    <v-col>
-                        <div v-for="taskList in user.tasksLists">
-                            {{ taskList.label }}
-                        </div>
-                        <v-text-field label="title" v-model="newTask.title" placeholder="Titel"></v-text-field>
-                        <v-text-field label="description" v-model="newTask.description" placeholder="Beschreibung">
-                        </v-text-field>
-                        <v-btn type="submit" @click="add" class="ml-2" variant="elevated"> Hinzufügen </v-btn>
-                    </v-col>
-                </v-row>
-            </v-form>
-        </div>
-    
-            <v-img class="logo" src="2023.png"></v-img>
-      
-        <br>
-        <!-- <div class="backlog">
-
-            <v-card dark color="secondary" v-for="task in tasks" display: block>
-                <v-card-title class="text-black">{{ task.title }}</v-card-title>
-            </v-card>
-        </div> -->
-        <v-container class="grid-container ">
-                <div class="col-3">
-                    <div class="p-2 alert alert-secondary">
-                        <h3>Backlog</h3>
-                        <VueDraggableNext class="drag Area list-group kanban-column" v-model="tasks.value"
-                            :list="arrBacklog" group="tasks" @end="onDragEnd">
+        <v-container class="grid-container-4">
+            <div class="col-3">
+                <div class="taskForm">
+                    <v-form @submit.prevent="createNewTask">
+                        <v-row>
+                            <v-col>
+                                <div v-for="taskList in user.tasksLists">
+                                    {{ taskList.label }}
+                                </div>
+                                <v-text-field label="title" v-model="newTask.title" placeholder="Titel"></v-text-field>
+                                <v-text-field label="description" v-model="newTask.description" placeholder="Beschreibung">
+                                </v-text-field>
+                                <v-btn type="submit" @click="add" class="ml-2" variant="elevated"> Hinzufügen </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-form>
+                </div>
+            </div>
+            <div class="col-3-backlog">
+                <div class="p-2 alert alert-secondary">
+                    <h3>Backlog</h3>
+                    <VueDraggableNext class="drag Area list-group kanban-column" v-model="tasks.value" :list="arrBacklog"
+                        group="tasks" @end="onDragEnd">
+                        <v-card>
                             <div class="list-group-item" v-for="task in arrBacklog" :key="task.id">
                                 {{ task.title }}
                             </div>
-                        </VueDraggableNext>
-                    </div>
+                        </v-card>
+                    </VueDraggableNext>
+                </div>
             </div>
-            <div class="col-3">
+            <div class="col-3-inprogress">
                 <div class="p-2 alert alert-primary">
                     <h3>In Progress</h3>
                     <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrInProgress"
                         group="tasks" @end="onDragEnd">
-                        <div class="list-group-item" v-for="task in arrInProgress" :key="task.id">
-                            {{ task.title }}
-                        </div>
+                        <v-card>
+                            <div class="list-group-item" v-for="task in arrInProgress" :key="task.id">
+                                {{ task.title }}
+                            </div>
+                        </v-card>
                     </VueDraggableNext>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-3-done">
                 <div class="p-2 alert alert-primary">
                     <h3>Done</h3>
                     <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrDone" group="tasks"
                         @end="onDragEnd">
-                        <div class="list-group-item" v-for="task in arrDone" :key="task.id">
-                            {{ task.title }}
-                        </div>
+                        <v-card>
+                            <div class="list-group-item" v-for="task in arrDone" :key="task.id">
+                                {{ task.title }}
+                            </div>
+                        </v-card>
                     </VueDraggableNext>
                 </div>
             </div>
@@ -142,35 +140,68 @@ const onDragEnd = async () => {
 }
 
 .taskForm {
-    width: 100vw;
+    justify-content: center;
     align-items: center;
-    padding-left: 40px;
-    display: flex;
-
+    background-color: black;
+    color: white;
+    border: black;
+    margin-top: 50px;
+    text-align: center;
 }
 
-.grid-container {
+.ml-2 {
+    color: white;
+    background-color: black;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+.grid-container-4 {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto;
     gap: 10px;
-    background-color: #2196F3;
     padding: 10px;
     padding-top: 10px;
+    background-color: grey;
 }
 
-.grid-container>div {
-    background-color: rgba(255, 255, 255, 0.8);
+.col-3{
+    background-color: black;
     text-align: center;
-    padding: 20px 0;
     font-size: 30px;
+    color: white;
+    padding-top: 10px;
+} 
+
+.col-3-backlog {
+    background-color: grey;
+    color: black;
+    text-align: center;
+    padding: 20px;
+    font-size: 30px;
+    justify-content: center;
 }
 
-.logo{
+.col-3-inprogress {
+    background-color: orange;
+    color: black;
+    text-align: center;
+    padding: 20px;
+    font-size: 30px;
+    justify-content: center;
+}
+
+.col-3-done {
+    background-color: green;
+    color: black;
+    text-align: center;
+    padding: 20px;
+    font-size: 30px;
+    justify-content: center;
+}
+
+.logo {
     display: flex;
     float: right;
-
-
 }
-
-
 </style>
