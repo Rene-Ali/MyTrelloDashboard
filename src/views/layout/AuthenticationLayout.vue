@@ -1,14 +1,20 @@
 
-import SitebarLayout from './SitebarLayout.vue';
+import FooterView from '../authentication/FooterView.vue';
 
 <template>
     <div class ="background-image">
     </div>
     <VMain>
-
         <RouterView/>
     </VMain>
+  <div>
+      <FooterView/>
+    </div>
 </template>
+
+<script setup>
+import FooterView from '../authentication/FooterView.vue';
+</script>
 
 
 <style scoped>

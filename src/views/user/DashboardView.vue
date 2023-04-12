@@ -74,7 +74,8 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useUserStore } from '../../stores/userStore.js';
-import { router } from "@/router";
+//import { router } from "@/router";
+import { useRoute } from "vue-router"
 import AvatarComponent from "../layout/AvatarComponent.vue";
 
 //const router = useRouter();

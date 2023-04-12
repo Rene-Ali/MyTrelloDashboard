@@ -5,7 +5,7 @@
     <div class="col-3">
       <img class="logo" src="../../assets/2023.png">
     </div>
-    <div class="col-3">
+    <!-- <div class="col-3"> -->
       <v-form @submit.prevent="loginUser">
         <v-text-field v-model="userToLogin.Username" label="Username" prepend-icon="account_circle"></v-text-field>
         <br>
@@ -21,7 +21,6 @@
           </v-btn>
         </div>
       </v-form>
-    </div>
   </v-container>
 </template>
 
@@ -29,6 +28,7 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/authenticationStore';
 import { router } from "@/router";
+import { useRoute } from "vue-router";
 
 
 const authStore = useAuthStore();
