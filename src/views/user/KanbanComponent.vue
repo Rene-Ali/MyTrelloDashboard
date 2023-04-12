@@ -27,47 +27,65 @@
                 </div>
             </div>
             <div class="col-3-backlog">
-                <div class="p-2 alert alert-secondary">
-                    <h3>Backlog</h3>
-                    <VueDraggableNext class="drag Area list-group kanban-column" v-model="tasks.value" :list="arrBacklog"
-                        group="tasks" @end="onDragEnd">
-                        <v-card>
-                            <div class="list-group-item" v-for="task in arrBacklog" :key="task.id">
-                                {{ task.title }}
-                            </div>
-                        </v-card>
-                    </VueDraggableNext>
-                </div>
-            </div>
-            <div class="col-3-inprogress">
-                <div class="p-2 alert alert-primary">
-                    <h3>In Progress</h3>
-                    <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrInProgress"
-                        group="tasks" @end="onDragEnd">
-                        <v-card>
-                            <div class="list-group-item" v-for="task in arrInProgress" :key="task.id">
-                                {{ task.title }}
-                            </div>
-                        </v-card>
-                    </VueDraggableNext>
-                </div>
-            </div>
-            <div class="col-3-done">
-                <div class="p-2 alert alert-primary">
-                    <h3>Done</h3>
-                    <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrDone" group="tasks"
-                        @end="onDragEnd">
-                        <v-card>
-                            <div class="list-group-item" v-for="task in arrDone" :key="task.id">
-                                {{ task.title }}
-                            </div>
-                        </v-card>
-                    </VueDraggableNext>
-                </div>
-            </div>
-        </v-container>
+                <h3>Backlog</h3>
+                <v-dialog v-model="dialog" width="auto">
+                    <template v-slot:activator="{ props }">
+                        <VueDraggableNext class="drag Area list-group kanban-column" v-model="tasks.value"
+                            :list="arrBacklog" group="tasks" @end="onDragEnd">
 
+                            <v-btn class="list-group-item" v-for="task in arrBacklog" :key="task.id">
+                                {{ task.title }}
+                            </v-btn>
+
+                        </VueDraggableNext>
+                    </template>
+                    <v-card>
+                        <v-card-text v-for="task in arrBacklog" v-model="task.description">
+                            Bescheibung des Tasks:
+
+                            {{ tasks.id.description }}
+
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-btn color="primary" block @click="dialog = false">Close Description</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </div>
+
+
+
+
+            <div class="col-3-inprogress">
+                <h3>In Progress</h3>
+                <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrInProgress" group="tasks"
+                    @end="onDragEnd">
+                    <v-card>
+                        <div class="list-group-item" v-for="task in arrInProgress" :key="task.id">
+                            {{ task.title }}
+                        </div>
+                    </v-card>
+                </VueDraggableNext>
+            </div>
+
+            <div class="col-3-done">
+
+                <h3>Done</h3>
+                <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrDone" group="tasks"
+                    @end="onDragEnd">
+                    <v-card>
+                        <div class="list-group-item" v-for="task in arrDone" :key="task.id">
+                            {{ task.title }}
+                        </div>
+                    </v-card>
+                </VueDraggableNext>
+            </div>
+
+        </v-container>
     </main>
+    <div>
+        <FooterView />
+    </div>
 </template>
 
 <script setup>
@@ -76,6 +94,7 @@ import { useUserStore } from '../../stores/userStore';
 import { useRoute } from "vue-router"
 import { VueDraggableNext } from "vue-draggable-next";
 import axios from 'axios';
+import FooterView from '../authentication/FooterView.vue';
 
 
 const userStore = useUserStore();
@@ -93,9 +112,11 @@ onMounted(async () => {
     await userStore.showTaskLists(taskListId.value);
 });
 
+
 const arrBacklog = ref([]);
 const arrInProgress = ref([]);
 const arrDone = ref([]);
+const dialog = ref(false);
 
 
 const newTask = ref({
@@ -165,13 +186,13 @@ const onDragEnd = async () => {
     background-color: grey;
 }
 
-.col-3{
+.col-3 {
     background-color: black;
     text-align: center;
     font-size: 30px;
     color: white;
     padding-top: 10px;
-} 
+}
 
 .col-3-backlog {
     background-color: grey;

@@ -31,6 +31,7 @@ const icons = ([
 <style scoped>
 .footer {
     width: 100%;
+    height: 120px;
     background-color: orange;
     justify-content: center;
     color: white;

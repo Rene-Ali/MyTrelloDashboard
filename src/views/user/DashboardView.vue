@@ -69,6 +69,9 @@
       </v-col>
     </v-row>
   </v-container>
+  <div>
+    <FooterView/>
+  </div>
 </template>
 
 <script setup>
@@ -77,6 +80,7 @@ import { useUserStore } from '../../stores/userStore.js';
 //import { router } from "@/router";
 import { useRoute } from "vue-router"
 import AvatarComponent from "../layout/AvatarComponent.vue";
+import FooterView from '../authentication/FooterView.vue';
 
 //const router = useRouter();
 
