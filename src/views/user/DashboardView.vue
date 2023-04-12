@@ -17,7 +17,7 @@
   </header>
   <br>
   <div class="avatar">
-    <AvatarComponent size="75"/>
+    <AvatarComponent size="75" />
     Username: {{ user.username }}
   </div>
   <v-container class="mi">
@@ -70,14 +70,14 @@
     </v-row>
   </v-container>
   <div>
-    <FooterView/>
+    <FooterView />
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
 import { useUserStore } from '../../stores/userStore.js';
-//import { router } from "@/router";
+import { router } from "@/router";
 import { useRoute } from "vue-router"
 import AvatarComponent from "../layout/AvatarComponent.vue";
 import FooterView from '../authentication/FooterView.vue';
@@ -115,30 +115,30 @@ const isUpdateable = ref(true);
 
 
 async function changeAvatar() {
-    // Revoke URL to make sure that there are no memory leaks
-    if (imageSrc.value != null) {
-        URL.revokeObjectURL(imageSrc.value);
-    }
-    // Make a form data so the binary data can be submitted
-    const formData = new FormData();
-    formData.append("image", image.value[0]);
-    try {
-        imageSrc.value = URL.createObjectURL(image.value[0]); // make an URL so it cant be used as the source for the avatar
-        userStore.userImage = imageSrc.value;
-        await axios.post("https://codersbay.a-scho-wurscht.at/api/user/image", formData, userStore.getAxiosConfig()); // send the form data with the binary image file to the server
-        isUpdateable.value = !isUpdateable.value; // Change the button function
-    } catch (err) {
-        console.log(err)
-    }
+  // Revoke URL to make sure that there are no memory leaks
+  if (imageSrc.value != null) {
+    URL.revokeObjectURL(imageSrc.value);
+  }
+  // Make a form data so the binary data can be submitted
+  const formData = new FormData();
+  formData.append("image", image.value[0]);
+  try {
+    imageSrc.value = URL.createObjectURL(image.value[0]); // make an URL so it cant be used as the source for the avatar
+    userStore.userImage = imageSrc.value;
+    await axios.post("https://codersbay.a-scho-wurscht.at/api/user/image", formData, userStore.getAxiosConfig()); // send the form data with the binary image file to the server
+    isUpdateable.value = !isUpdateable.value; // Change the button function
+  } catch (err) {
+    console.log(err)
+  }
 }
 async function deleteAvatar() {
-    try {
-        userStore.userImage = null; // Delete from store
-        await axios.delete("https://codersbay.a-scho-wurscht.at/api/user/image", userStore.getAxiosConfig());
-        isUpdateable.value = !isUpdateable.value; // Change button functionality 
-    } catch (err) {
-        console.log("no picture available to delete")
-    }
+  try {
+    userStore.userImage = null; // Delete from store
+    await axios.delete("https://codersbay.a-scho-wurscht.at/api/user/image", userStore.getAxiosConfig());
+    isUpdateable.value = !isUpdateable.value; // Change button functionality 
+  } catch (err) {
+    console.log("no picture available to delete")
+  }
 }
 </script>
 
@@ -155,14 +155,14 @@ async function deleteAvatar() {
   align-items: center;
 }
 
-.mi{
+.mi {
   width: 500px;
   padding-top: 30px;
   align-items: center;
   justify-content: center;
 }
 
-.dashboardBtn{
+.dashboardBtn {
   width: 500px;
   display: flex;
   align-items: center;
@@ -170,7 +170,7 @@ async function deleteAvatar() {
   text-align: center;
 }
 
-.avatar{
+.avatar {
   display: flex;
   justify-content: center;
   text-align: center;

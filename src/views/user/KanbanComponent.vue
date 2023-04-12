@@ -28,56 +28,31 @@
             </div>
             <div class="col-3-backlog">
                 <h3>Backlog</h3>
-                <v-dialog v-model="dialog" width="auto">
-                    <template v-slot:activator="{ props }">
-                        <VueDraggableNext class="drag Area list-group kanban-column" v-model="tasks.value"
-                            :list="arrBacklog" group="tasks" @end="onDragEnd">
-
-                            <v-btn class="list-group-item" v-for="task in arrBacklog" :key="task.id">
-                                {{ task.title }}
-                            </v-btn>
-
-                        </VueDraggableNext>
-                    </template>
-                    <v-card>
-                        <v-card-text v-for="task in arrBacklog" v-model="task.description">
-                            Bescheibung des Tasks:
-
-                            {{ tasks.id.description }}
-
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-btn color="primary" block @click="dialog = false">Close Description</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
+                <VueDraggableNext class="drag Area list-group kanban-column" v-model="tasks.value" :list="arrBacklog"
+                    group="tasks" @end="onDragEnd">
+                    <v-btn class="list-group-item" v-for="task in arrBacklog" :key="task.id">
+                        Title: {{ task.title }}
+                    </v-btn>
+                </VueDraggableNext>
             </div>
-
-
-
 
             <div class="col-3-inprogress">
                 <h3>In Progress</h3>
                 <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrInProgress" group="tasks"
                     @end="onDragEnd">
-                    <v-card>
-                        <div class="list-group-item" v-for="task in arrInProgress" :key="task.id">
-                            {{ task.title }}
-                        </div>
-                    </v-card>
+                    <v-btn class="list-group-item" v-for="task in arrInProgress" :key="task.id">
+                        Title: {{ task.title }}
+                    </v-btn>
                 </VueDraggableNext>
             </div>
 
             <div class="col-3-done">
-
                 <h3>Done</h3>
                 <VueDraggableNext class="list-group kanban-column" v-model="tasks.value" :list="arrDone" group="tasks"
                     @end="onDragEnd">
-                    <v-card>
-                        <div class="list-group-item" v-for="task in arrDone" :key="task.id">
-                            {{ task.title }}
-                        </div>
-                    </v-card>
+                    <v-btn class="list-group-item" v-for="task in arrDone" :key="task.id">
+                        Title: {{ task.title }}
+                    </v-btn>
                 </VueDraggableNext>
             </div>
 

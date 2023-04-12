@@ -13,11 +13,19 @@ export const useUserStore = defineStore("userStore", () => {
 
 
     // Axios Header wird in einer Variable gespeichert um immer den gleichen Token zu haben
-    const axiosHeader = {
-        headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
+    // const axiosHeader = {
+    //     headers: {
+    //         Authorization: "Bearer " + localStorage.getItem("token")
+    //     }
+    // };
+
+    function getAxiosHeader(){
+        return{
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
         }
-    };
+    }
 
     function saveUser(userToSave) {
         user.value = userToSave;
@@ -32,13 +40,13 @@ export const useUserStore = defineStore("userStore", () => {
     }
 
     async function createNewTaskList(newTaskList) {
-        let response = await axios.post("https://codersbay.a-scho-wurscht.at/api/tasklist", newTaskList, axiosHeader);
+        let response = await axios.post("https://codersbay.a-scho-wurscht.at/api/tasklist", newTaskList, getAxiosHeader());
         console.log("response.data", response.data);
         user.value.taskLists.push(response.data);
     }
 
     async function removeTaskList(taskListId) {
-        let response = await axios.delete("https://codersbay.a-scho-wurscht.at/api/tasklist/" + taskListId, axiosHeader);
+        let response = await axios.delete("https://codersbay.a-scho-wurscht.at/api/tasklist/" + taskListId, getAxiosHeader());
         console.log("response.data", response.data);
         let indexToDelete = user.value.taskLists.findIndex(taskList => {
             return taskList.id === taskListId
@@ -48,7 +56,7 @@ export const useUserStore = defineStore("userStore", () => {
 
     //behandelt die Tasks selbst 
     async function removeTask(taskId){
-        let response = await axios.delete("https://codersbay.a-scho-wurscht.at/api/task/" + taskId, axiosHeader);
+        let response = await axios.delete("https://codersbay.a-scho-wurscht.at/api/task/" + taskId, getAxiosHeader());
         console.log("response.data", response.data);
         let indexToDelete = user.value.tasks.findIndex(task => {
             return task.id === taskId
@@ -58,7 +66,7 @@ export const useUserStore = defineStore("userStore", () => {
 
     async function createNewTask(newTask) {
         console.log("newTask", newTask);
-        let response = await axios.post("https://codersbay.a-scho-wurscht.at/api/task", newTask, axiosHeader);
+        let response = await axios.post("https://codersbay.a-scho-wurscht.at/api/task", newTask, getAxiosHeader());
         console.log("response.data", response.data);
         console.log("tasks.value", tasks.value);
         tasks.value.push(response.data);
@@ -72,7 +80,7 @@ export const useUserStore = defineStore("userStore", () => {
 
     async function getUserInformation() {
         try {
-            const userInfoResponse = await axios.get("https://codersbay.a-scho-wurscht.at/api/auth", axiosHeader);
+            const userInfoResponse = await axios.get("https://codersbay.a-scho-wurscht.at/api/auth", getAxiosHeader());
             user.value = userInfoResponse.data;
             taskStore.setTaskList(user.value.user.taskLists);
             await getAvatar();
@@ -103,4 +111,4 @@ export const useUserStore = defineStore("userStore", () => {
         }
     }
 
-return { user, tasklists, tasks, saveUser, removeTask, removeTaskList, createNewTask, showTaskLists, showTask, createNewTaskList, getUserInformation, userImage}})
+return { user, tasklists, tasks, saveUser, removeTask, removeTaskList, getAxiosHeader, createNewTask, showTaskLists, showTask, createNewTaskList, getUserInformation, userImage}})
