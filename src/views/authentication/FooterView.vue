@@ -16,6 +16,9 @@
             </div>
         </div>
     </v-footer>
+    <div class="copyright">
+        <v-icon start icon="copyright"></v-icon><strong>René-Ali Günürün</strong>
+    </div>
 </template>
 
 <script setup>
@@ -35,11 +38,16 @@ const icons = ([
     background-color: orange;
     justify-content: center;
     color: white;
-    
+
 }
 
-.footer>div{
+.footer>div {
     text-align: center;
     justify-content: center;
 }
+
+.copyright{
+    text-align: center;
+}
+
 </style>
